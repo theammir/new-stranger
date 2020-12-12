@@ -11,19 +11,19 @@ intents.members = True
 bot = commands.Bot(command_prefix = get_pre, case_insensitive = True, intents = intents)
 
 @bot.event
-async def on_ready(): # Выполняется, когда бот запущен и готов к работе
-	# Импортирование когов
+async def on_ready(): # Runs when bot is ready
+	# Cogs import
 	current_dir = os.listdir()
 	for file in current_dir:
-		if (file[-3:] == '.py'): # Если файл имеет расширение .py
+		if (file[-3:] == '.py'): # If the file has .py extension
 			if (file.startswith('cog_')):
 				bot.load_extension(file[:-3])
 				print(f'Loaded {file}')
 
-	# Подсчет строк кода
+	# Lines of code counting
 	linesOfCode = 0
 	for file in current_dir:
 		linesOfCode += utils.get_length(file)
 	print(f'Строк кода всего: {linesOfCode}')
 
-bot.run('') # Запуск бота
+bot.run('') # Bot running

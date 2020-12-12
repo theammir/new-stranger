@@ -1,6 +1,6 @@
-# Конфиг всего и вся, что касается настроек
+# Common config
 
-# Конфиг StarCog
+# StarCog Config
 TRUE_PHOENIX_ROLE_NAME = 'True Phoenix'
 TROPHY = '🏆'
 STAR = '🌟'
@@ -8,7 +8,7 @@ PROPERTIES = {
 	'@Trophy': TROPHY,
 	'@AllianceScore': STAR
 }
-UPDATE_INTERVALS = { # Время в минутах
+UPDATE_INTERVALS = { # Minutes
 	'@Trophy': 30,
 	'@AllianceScore': 5,
 	'PROPERTY': 15

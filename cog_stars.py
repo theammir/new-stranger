@@ -6,7 +6,7 @@ import datetime, time
 import config
 from discord.ext import commands, tasks
 
-class StarCog(commands.Cog): # Класс кога
+class StarCog(commands.Cog): # Cog class
 	def __init__(self, bot):
 		self.bot = bot
 		self.NOW = datetime.date.today()
@@ -57,22 +57,22 @@ class StarCog(commands.Cog): # Класс кога
 			return
 
 		if (phoenix_role):
-			ingameUsername = '' # Внутреигровое имя игрока
-			for member in ctx.guild.members: # Для каждого участника: (нахождение игрового ника пользователя)
+			ingameUsername = '' # In-game player nickname
+			for member in ctx.guild.members: # For each member: (in-game nick finding)
 				if (phoenix_role in member.roles):
 					memberNick = member.display_name
 	
-					info_search = re.findall(config.INFO_PATTERN, memberNick) # Поиск таблички в нике игрока
-					if (info_search): # Если найдена информация в нике
+					info_search = re.findall(config.INFO_PATTERN, memberNick) # Finding table in member's nick
+					if (info_search): # If info was found
 						group = ''.join(info_search)
 						nickToCheck = memberNick[len(group):]
 					else:
 						nickToCheck = memberNick
 
-					bracket_search = re.search(config.BRACKET_PATTERN, nickToCheck) # Поиск контента в скобках у игрока в нике
+					bracket_search = re.search(config.BRACKET_PATTERN, nickToCheck) # Finding content in member's nick's brackets
 					if (bracket_search):
 						ingameUsername = bracket_search.group()[1:-1]
-					else: # Если не найдено
+					else: # If wasn't found
 						ingameUsername = nickToCheck
 						
 					user_property = self._count_member_property(ingameUsername, self.property)
@@ -130,5 +130,5 @@ class StarCog(commands.Cog): # Класс кога
 
 
 
-def setup(bot): # Функция, что отвечает за добавление кога в бота
+def setup(bot): # Adding the cog into bot.
 	bot.add_cog(StarCog(bot))
