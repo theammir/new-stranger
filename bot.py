@@ -29,4 +29,4 @@ async def on_ready(): # Runs when bot is ready
 
 	
 
-bot.run('NjcwNjkyOTAwNTkzNTk4NTMw.XiyFcA.ma-Vu-JC0X5eOQkp8Y3tj1ke0Ts') # Bot running
+bot.run('') # Bot running
