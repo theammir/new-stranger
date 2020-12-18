@@ -23,7 +23,10 @@ async def on_ready(): # Runs when bot is ready
 	# Lines of code counting
 	linesOfCode = 0
 	for file in current_dir:
-		linesOfCode += utils.get_length(file)
+		if (file[-3:] == '.py'):
+			linesOfCode += utils.get_length(file)
 	print(f'Строк кода всего: {linesOfCode}')
 
-bot.run('') # Bot running
+	
+
+bot.run('NjcwNjkyOTAwNTkzNTk4NTMw.XiyFcA.ma-Vu-JC0X5eOQkp8Y3tj1ke0Ts') # Bot running
