@@ -37,7 +37,7 @@ class DogmasCog(commands.Cog):
 			if (ctx.message.attachments):
 				file = ctx.message.attachments[0]
 				extension = file.filename[file.filename.index('.'):]
-				path = r'imgs\\_' + key + extension
+				path = r'imgs/_' + key + extension
 				await ctx.message.attachments[0].save(path)
 			result = self.conn.add_item({'key': key, 'message': content, 'img': path, 'author': ctx.message.author.id, 'stamp': dt.datetime.now().strftime('%b, %d.%m.%Y %H:%M')})
 			await ctx.message.add_reaction('✔️')
@@ -67,7 +67,7 @@ class DogmasCog(commands.Cog):
 				embed.set_footer(text = 'Дата добавления: ' + dogma['stamp'])
 			else:
 				embed.set_footer(text = 'Дата добавления неизвестна')
-				
+
 			await ctx.send(embed = embed)
 
 	@commands.command(name = 'радуга', aliases = ['лгбт'])
