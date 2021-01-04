@@ -27,6 +27,7 @@ async def on_ready(): # Runs when bot is ready
 			linesOfCode += utils.get_length(file)
 	print(f'Строк кода всего: {linesOfCode}')
 
-	
+	# Extenstions
+	bot.load_extension('jishaku')
 
-bot.run('') # Bot running
+bot.run() # Bot running

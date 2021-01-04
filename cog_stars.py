@@ -34,6 +34,7 @@ class StarCog(commands.Cog): # Cog class
 		division = ''
 		if (user_data):
 			if (user_data.get('@Alliance')):
+				print(user_data['@Alliance'])
 				fleet_ranking = pss_api.find_fleet_ranking(user_data['@Alliance']['@AllianceName'])
 
 				if (fleet_ranking in range(51, 101)):
@@ -44,7 +45,6 @@ class StarCog(commands.Cog): # Cog class
 					division = config.DIVISIONS[2]
 				elif (fleet_ranking in range(1, 9)):
 					division = config.DIVISIONS[3]
-
 		return division
 
 
