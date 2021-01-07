@@ -3,6 +3,7 @@ import config
 import os.path
 import database
 import random
+import requests, io
 import datetime as dt
 from discord.ext import commands
 
@@ -15,12 +16,20 @@ class DogmasCog(commands.Cog):
 	@commands.command(name = 'догма')
 	async def asdogma(self, ctx, key):
 		key = key.lower() # To make dogmas case insensitive
+		image = None
+		filename = ''
 
 		# Trying to select the dogma
 		dogma = self.conn.find_item(key = key)
-		print(dogma)
 		if (dogma):
-			await ctx.send(content = dogma.get('message'), file = discord.File(dogma.get('img')) if dogma.get('img') != '' else None)
+			image = dogma.get('img')
+			if (image):
+				if not (os.path.exists(image)):
+					unknown = requests.get(config.UNKNOWN_PIC)
+					image = io.BytesIO(unknown.content)
+					filename = config.PIC_NAME if config.PIC_NAME else 'unknown.jpg'
+					await ctx.send("`Похоже, изображение не может быть найдено или повреждено. Это не значит, что мы его потеряли - так как название, под которым сохраняется картинка зависит от названия самой догмы, это могло случиться из-за невозможности назвать файл тем или иным образом (например, если назвать догму пингом другана или знаком вопроса).\n\nБлагодарим за понимание.`")
+			await ctx.send(content = dogma.get('message'), file = discord.File(image, filename = filename if filename else None))
 		else:
 			await ctx.message.add_reaction('❌')
 
@@ -39,7 +48,12 @@ class DogmasCog(commands.Cog):
 				extension = file.filename[file.filename.index('.'):]
 				path = r'imgs/_' + key + extension
 				await ctx.message.attachments[0].save(path)
-			result = self.conn.add_item({'key': key, 'message': content, 'img': path, 'author': ctx.message.author.id, 'stamp': dt.datetime.now().strftime('%b, %d.%m.%Y %H:%M')})
+			result = self.conn.add_item({
+				'key': key,
+				'message': content,
+				'img': path,
+				'author': ctx.message.author.id,
+				'stamp': dt.datetime.now().strftime('%b, %d.%m.%Y %H:%M')})
 			await ctx.message.add_reaction('✔️')
 
 	@commands.command(name = 'догма_инфо')
@@ -57,7 +71,7 @@ class DogmasCog(commands.Cog):
 				author = self.bot.get_user(dogma['author'])
 				embed.set_author(name = str(author), icon_url = author.avatar_url)
 			else:
-				embed.set_author(name = 'Автор неизвестен', icon_url = 'https://i.imgur.com/rWGrw6c.png')
+				embed.set_author(name = 'Автор неизвестен', icon_url = config.UNKNOWN_PIC)
 
 			if (dogma.get('message')):
 				embed.add_field(name = 'Текстовое содержание', value = dogma['message'] if len(dogma['message']) < 200 else dogma['message'][200:] + '...')

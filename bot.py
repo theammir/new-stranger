@@ -4,7 +4,7 @@ import utils
 from discord.ext import commands
 
 def get_pre(bot, message):
-	return ['ас', 'as', 'ass']
+	return ['асс', 'ас', 'ass', 'as']
 
 intents = discord.Intents.default()
 intents.members = True

@@ -22,3 +22,5 @@ CTX_MESSAGE = 787291012262395905
 
 # DogmasCog Config
 DB_NAME = 'dogmas.json'
+UNKNOWN_PIC = 'https://i.imgur.com/rWGrw6c.png'
+PIC_NAME = None
