@@ -197,6 +197,6 @@ $RECYCLE.BIN/
 *.lnk
 
 dogmas.json
-imgs/*
+imgs/
 
 # End of https://www.toptal.com/developers/gitignore/api/images,windows,pycharm
