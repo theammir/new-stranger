@@ -79,4 +79,7 @@ async def ping(ctx):
 
 	await ctx.send(embed = embed)
 
-bot.run() # Bot running
+with open('TOKEN.txt', 'r') as file:
+	token = file.read()
+
+bot.run(token) # Bot running

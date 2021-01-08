@@ -198,5 +198,6 @@ $RECYCLE.BIN/
 
 dogmas.json
 imgs/
+TOKEN.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/images,windows,pycharm

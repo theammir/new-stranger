@@ -13,6 +13,12 @@ class DogmasCog(commands.Cog):
 		self.conn = database.Instance(config.DB_NAME)
 		
 
+	@commands.Cog.listener()
+	async def on_message(self, message):
+		ctx = await self.bot.get_context(message)
+		if (message.content.startswith('//')):
+			await self.asdogma(ctx, message.content.split(' ')[0][2:])
+
 	@commands.command(name = 'догма')
 	async def asdogma(self, ctx, key):
 		key = key.lower() # To make dogmas case insensitive
@@ -29,7 +35,7 @@ class DogmasCog(commands.Cog):
 					image = io.BytesIO(unknown.content)
 					filename = config.PIC_NAME if config.PIC_NAME else 'unknown.jpg'
 					await ctx.send("`Похоже, изображение не может быть найдено или повреждено. Это не значит, что мы его потеряли - так как название, под которым сохраняется картинка зависит от названия самой догмы, это могло случиться из-за невозможности назвать файл тем или иным образом (например, если назвать догму пингом другана или знаком вопроса).\n\nБлагодарим за понимание.`")
-			await ctx.send(content = dogma.get('message'), file = discord.File(image, filename = filename if filename else None))
+			await ctx.send(content = dogma.get('message'), file = discord.File(image, filename) if image else None)
 		else:
 			await ctx.message.add_reaction('❌')
 
