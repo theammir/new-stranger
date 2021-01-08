@@ -17,7 +17,10 @@ class Instance:
 		else:
 			return items
 
-	def find_items(self, table, condition):
+	def delete_item(self, **kwargs):
 		for k, v in kwargs.items():
-			items = self.db.search(self.query[k] == v)
-			return items
+			item = self.db.search(self.query[k] == v)
+			if (item):
+				item = item[0]
+				self.db.remove(self.query[k] == v)
+				return

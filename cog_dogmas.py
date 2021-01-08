@@ -1,6 +1,6 @@
 import discord
 import config
-import os.path
+import os, os.path
 import database
 import random
 import requests, io
@@ -56,6 +56,17 @@ class DogmasCog(commands.Cog):
 				'stamp': dt.datetime.now().strftime('%b, %d.%m.%Y %H:%M')})
 			await ctx.message.add_reaction('✔️')
 
+			dogmas_count = len(self.conn.db.all())
+			word = ''
+			if (str(dogmas_count).endswith('1')):
+				word = 'догму'
+			elif (str(dogmas_count).endswith(('2', '3', '4'))):
+				word = 'догмы'
+			elif (str(dogmas_count).endswith(('0', '5', '6', '7', '8', '9'))):
+				word = 'догм'
+			
+			await self.bot.change_presence(activity = discord.Activity(type = discord.ActivityType.watching, name = f"на {dogmas_count} {word}"))
+
 	@commands.command(name = 'догма_инфо')
 	async def asdogma_info(self, ctx, key):
 		dogma = self.conn.find_item(key = key)
@@ -90,6 +101,30 @@ class DogmasCog(commands.Cog):
 
 		await self.asdogma_info(ctx, dogma['key'])
 		await self.asdogma(ctx, dogma['key'])
+
+	@commands.command(name = 'делит', aliases = ['delete'])
+	async def asdelete(self, ctx, key):
+		dogma = self.conn.find_item(key = key)
+		if not (dogma):
+			await ctx.message.add_reaction('❌')
+
+		else:
+			self.conn.delete_item(key = key)
+			if (dogma.get('img')):
+				os.remove(dogma['img'])
+
+			await ctx.message.add_reaction('✔️')
+
+			dogmas_count = len(self.conn.db.all())
+			word = ''
+			if (str(dogmas_count).endswith('1')):
+				word = 'догму'
+			elif (str(dogmas_count).endswith(('2', '3', '4'))):
+				word = 'догмы'
+			elif (str(dogmas_count).endswith(('0', '5', '6', '7', '8', '9'))):
+				word = 'догм'
+			
+			await self.bot.change_presence(activity = discord.Activity(type = discord.ActivityType.watching, name = f"на {dogmas_count} {word}"))
 
 
 
