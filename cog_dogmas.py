@@ -3,7 +3,6 @@ import config
 import os, os.path
 import database
 import random
-import requests, io
 import datetime as dt
 from discord.ext import commands
 
@@ -11,7 +10,9 @@ class DogmasCog(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.conn = database.Instance(config.DB_NAME)
-		
+
+		if not (os.path.exists('imgs')):
+			os.mkdir('imgs')
 
 	@commands.Cog.listener()
 	async def on_message(self, message):
@@ -23,19 +24,17 @@ class DogmasCog(commands.Cog):
 	async def asdogma(self, ctx, key):
 		key = key.lower() # To make dogmas case insensitive
 		image = None
-		filename = ''
 
 		# Trying to select the dogma
 		dogma = self.conn.find_item(key = key)
 		if (dogma):
 			image = dogma.get('img')
 			if (image):
+				print(image)
 				if not (os.path.exists(image)):
-					unknown = requests.get(config.UNKNOWN_PIC)
-					image = io.BytesIO(unknown.content)
-					filename = config.PIC_NAME if config.PIC_NAME else 'unknown.jpg'
+					image = config.UNKNOWN_PIC
 					await ctx.send("`Похоже, изображение не может быть найдено или повреждено. Это не значит, что мы его потеряли - так как название, под которым сохраняется картинка зависит от названия самой догмы, это могло случиться из-за невозможности назвать файл тем или иным образом (например, если назвать догму пингом другана или знаком вопроса).\n\nБлагодарим за понимание.`")
-			await ctx.send(content = dogma.get('message'), file = discord.File(image, filename) if image else None)
+			await ctx.send(content = dogma.get('message'), file = discord.File(image) if image else None)
 		else:
 			await ctx.message.add_reaction('❌')
 
