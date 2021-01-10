@@ -3,6 +3,9 @@ import os, os.path
 import utils
 import database
 import config
+import sys
+import utils
+from help_command import HelpCommand
 from discord.ext import commands
 
 def get_pre(bot, message):
@@ -10,7 +13,10 @@ def get_pre(bot, message):
 
 intents = discord.Intents.default()
 intents.members = True; intents.presences = True
-bot = commands.Bot(command_prefix = get_pre, case_insensitive = True, intents = intents)
+bot = commands.Bot(command_prefix = get_pre, case_insensitive = True, intents = intents, activity = utils.get_activity())
+
+bot.help_command = HelpCommand()
+
 
 @bot.event
 async def on_ready(): # Runs when bot is ready
@@ -32,21 +38,17 @@ async def on_ready(): # Runs when bot is ready
 	# Extenstions
 	bot.load_extension('jishaku')
 
-	# Setting an activity
-	conn = database.Instance(config.DB_NAME)
-	dogmas_count = len(conn.db.all())
-	word = ''
-	if (str(dogmas_count).endswith('1')):
-		word = 'догму'
-	elif (str(dogmas_count).endswith(('2', '3', '4'))):
-		word = 'догмы'
-	elif (str(dogmas_count).endswith(('0', '5', '6', '7', '8', '9'))):
-		word = 'догм'
-			
-	await bot.change_presence(activity = discord.Activity(type = discord.ActivityType.watching, name = f"на {dogmas_count} {word}"))
-
-@bot.command(name = 'пинг', aliases = ['ping'])
+@bot.command(name = 'пинг', aliases = ['ping'], brief = 'Показывает пинг при отправке запроса и некоторую другую информацию.')
 async def ping(ctx):
+	'''
+		Использование: `{prefix}пинг`.
+
+		{param} Не принимает аргументов.
+
+		Отправляет в чат задержку в милисекундах (мс), округлённую до десятитысячных (1/10000), занимаемое ботом место на диске и соотношение изображений к итоговому весу (Мб, округлённые до сотых).
+
+		Ничего дополнительно не возвращает.
+	'''
 	latency_ms = bot.latency * 1000
 	latency_ms = int(latency_ms * 10000) / 10000
 
@@ -78,6 +80,7 @@ async def ping(ctx):
 	embed.add_field(name = 'Изображения', value = f'```{imgs_mbytes}/{size_mbytes}Мб```')
 
 	await ctx.send(embed = embed)
+
 
 with open('TOKEN.txt', 'r') as file:
 	token = file.read()

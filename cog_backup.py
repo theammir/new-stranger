@@ -3,13 +3,13 @@ import database
 import config
 from discord.ext import commands
 
-class BackupCog(commands.Cog):
+class BackupCog(commands.Cog, name = 'Бэк-ап'):
     def __init__(self, bot):
          self.bot = bot
          self.conn = database.Instance(config.DB_NAME)
 
     @commands.is_owner()
-    @commands.command(name = 'all_dogmas')
+    @commands.command(name = 'all_dogmas', hidden = True, brief = 'Скрытая команда для отправки всех догм в чат.')
     async def all_dogmas(self, ctx):
         db = self.conn.db.all()
         for db_item in db:
@@ -22,7 +22,7 @@ class BackupCog(commands.Cog):
             await ctx.send(text, file = file if file else None)
 
     @commands.is_owner()
-    @commands.command(name = 'backup')
+    @commands.command(name = 'backup', hidden = True, brief = 'Скрытая команда. Отправляет в чат любой запрошенный файл.')
     async def dogmas_db(self, ctx, name: str = None):
         if (not name):
             name = config.DB_NAME

@@ -6,7 +6,7 @@ import datetime, time
 import config
 from discord.ext import commands, tasks
 
-class StarCog(commands.Cog): # Cog class
+class StarCog(commands.Cog, name = 'Pixel Starships'): # Cog class
 	def __init__(self, bot):
 		self.bot = bot
 		self.NOW = datetime.date.today()
@@ -48,8 +48,20 @@ class StarCog(commands.Cog): # Cog class
 		return division
 
 
-	@commands.command(name = 'каунт')
+	@commands.command(name = 'каунт', aliases = ['count', 'ascount', 'аскаунт'], brief = 'Обновляет статистику в никах участников сервера.')
 	async def count(self, ctx):
+		'''
+			Использование: `{prefix}каунт`
+			Синонимы: {aliases}
+
+			{param} Не принимает аргументов.
+
+			Каждому участнику сервера из тех, кого видит бот, считается количество кубков в мирное время и звёзд на турнире.
+			Полученное число при наличии свободного места попадает в ник игрока.
+			Работает только на участниках с ролью, указанной в настройках.
+
+			Ничего дополнительно не возвращает.
+		'''
 		print("Invoked.")
 		phoenix_role = discord.utils.get(ctx.guild.roles, name = config.TRUE_PHOENIX_ROLE_NAME) # Получаем роль феникса
 
