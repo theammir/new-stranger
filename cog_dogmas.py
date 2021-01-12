@@ -25,7 +25,7 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 		if (message.content.startswith('//')):
 			await self.asdogma(ctx, message.content.split(' ')[0][2:])
 
-	@commands.command(name = 'догма', aliases = ['асдогма'], brief = 'Отправляет в чат догму по указанному пользователем названию.')
+	@commands.command(name = 'догма', aliases = ['асдогма', 'dogma', 'asdogma'] brief = 'Отправляет в чат догму по указанному пользователем названию.')
 	async def asdogma(self, ctx, key):
 		'''
 			Использование: `{prefix}догма <название>`.
@@ -98,10 +98,10 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 
 			await utils.update_presence(self.bot)
 
-	@commands.command(name = 'догма_инфо', aliases = ['асдогма_инфо'], brief = 'Показывает некоторую информацию о догме.')
+	@commands.command(name = 'догма_инфо', aliases = ['асдогма_инфо', 'асдогма-инфо', 'догма-инфо', 'dogma_info', 'dogma-info', 'asdogma_info', 'asdogma-info'], brief = 'Показывает некоторую информацию о догме.')
 	async def asdogma_info(self, ctx, key):
 		'''
-			Использование: `{prefix}догма <название>`
+			Использование: `{prefix}догма_инфо <название>`
 
 				{param} <название> - название догмы, информацию о которой вы хотите получить.
 
@@ -139,7 +139,7 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 
 			await ctx.send(embed = embed)
 
-	@commands.command(name = 'радуга', aliases = ['лгбт', 'аслгбт', 'асрадуга'], brief = 'Отправляет в чат случайную догму.')
+	@commands.command(name = 'радуга', aliases = ['лгбт', 'аслгбт', 'асрадуга', 'rainbow', 'asrainbow', 'aslgbt', 'lgbt'], brief = 'Отправляет в чат случайную догму.')
 	async def asrainbow(self, ctx):
 		'''
 			Использование: `{prefix}радуга`

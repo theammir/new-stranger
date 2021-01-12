@@ -38,7 +38,7 @@ async def on_ready(): # Runs when bot is ready
 	# Extenstions
 	bot.load_extension('jishaku')
 
-@bot.command(name = 'пинг', aliases = ['ping'], brief = 'Показывает пинг при отправке запроса и некоторую другую информацию.')
+@bot.command(name = 'пинг', aliases = ['ping', 'asping', 'аспинг'], brief = 'Показывает пинг при отправке запроса и некоторую другую информацию.')
 async def ping(ctx):
 	'''
 		Использование: `{prefix}пинг`.
