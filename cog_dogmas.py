@@ -25,7 +25,7 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 		if (message.content.startswith('//')):
 			await self.asdogma(ctx, message.content.split(' ')[0][2:])
 
-	@commands.command(name = 'догма', aliases = ['асдогма', 'dogma', 'asdogma'] brief = 'Отправляет в чат догму по указанному пользователем названию.')
+	@commands.command(name = 'догма', aliases = ['асдогма', 'dogma', 'asdogma'], brief = 'Отправляет в чат догму по указанному пользователем названию.')
 	async def asdogma(self, ctx, key):
 		'''
 			Использование: `{prefix}догма <название>`.
