@@ -134,7 +134,6 @@ class StarCog(commands.Cog, name = 'Pixel Starships'): # Cog class
 			for prop in config.PROPERTIES:
 				if (self.property == prop):
 					self.count_loop.change_interval(minutes = config.UPDATE_INTERVALS[prop])
-				print(self.property, prop)
 		except Exception as e:
 			print(e)
 			return
