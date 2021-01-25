@@ -14,7 +14,8 @@ UPDATE_INTERVALS = { # Minutes
 	'PROPERTY': 15
 }
 DIVISIONS = 'DCBA'
-BREAKTIME = 3
+BREAKTIME = 3 # Days
+SHOW_GUESTS = True
 BRACKET_PATTERN = r'\(([^]]+)\)'
 INFO_PATTERN = r'\[[' + r'A-D🇦🇧🇨🇩]?[\d' + f'{TROPHY}{STAR}' + r']+]'
 CTX_CHANNEL = 747865777276715150

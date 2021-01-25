@@ -71,7 +71,7 @@ class StarCog(commands.Cog, name = 'Pixel Starships'): # Cog class
 		if (phoenix_role):
 			ingameUsername = '' # In-game player nickname
 			for member in ctx.guild.members: # For each member: (in-game nick finding)
-				if (phoenix_role in member.roles):
+				if (phoenix_role in member.roles or config.SHOW_GUESTS):
 					memberNick = member.display_name
 	
 					info_search = re.findall(config.INFO_PATTERN, memberNick) # Finding table in member's nick
