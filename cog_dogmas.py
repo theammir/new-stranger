@@ -21,6 +21,11 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 		if not (os.path.exists('imgs')):
 			os.mkdir('imgs')
 
+		for dogma in self.conn.db.all():
+			if (dogma['message'] == f'//{dogma["key"]}'):
+				self.conn.delete_item(key = dogma['key'])
+				print('Deleted ' + dogma['key'])
+
 	@commands.Cog.listener()
 	async def on_message(self, message):
 		ctx = await self.bot.get_context(message)

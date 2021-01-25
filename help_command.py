@@ -1,5 +1,6 @@
 import discord
 import config
+import inspect
 from discord.ext import commands
 
 class HelpCommand(commands.HelpCommand):
