@@ -1,5 +1,4 @@
 import discord
-import inspect
 import config
 from discord.ext import commands
 

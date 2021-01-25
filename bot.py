@@ -9,7 +9,7 @@ from help_command import HelpCommand
 from discord.ext import commands
 
 def get_pre(bot, message):
-	return ['ас', 'as']
+	return ['ас', 'as', 'As', 'Ас', 'AS', 'АС', 'аС', 'aS']
 
 intents = discord.Intents.default()
 intents.members = True; intents.presences = True

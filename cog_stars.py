@@ -126,15 +126,15 @@ class StarCog(commands.Cog, name = 'Pixel Starships'): # Cog class
 		try:
 			DAYS = [30, 29 if (self.NOW.year % 4 == 0) else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-			if (int(time.strftime('%H')) in range(1)):
-				if (self.NOW.day <= DAYS[self.NOW.month - 1] and self.NOW.day >= DAYS[self.NOW.month - 1] - 6):
-					self.property = "@AllianceScore"
-				else:
-					self.property = "@Trophy"
+			if (self.NOW.day <= DAYS[self.NOW.month - 1] and self.NOW.day >= DAYS[self.NOW.month - 1] - 6):
+				self.property = "@AllianceScore"
+			else:
+				self.property = "@Trophy"
 
 			for prop in config.PROPERTIES:
 				if (self.property == prop):
 					self.count_loop.change_interval(minutes = config.UPDATE_INTERVALS[prop])
+				print(self.property, prop)
 		except Exception as e:
 			print(e)
 			return

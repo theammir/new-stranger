@@ -3,6 +3,7 @@ import config
 import os, os.path
 import database
 import random
+import re
 import config
 import utils
 import datetime as dt
@@ -12,6 +13,7 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 	def __init__(self, bot):
 		self.bot = bot
 		self.conn = database.Instance(config.DB_NAME)
+		self.komm = 343001477133893632
 
 		self.yes = self.bot.get_emoji(config.YES_EMOJI_ID)
 		self.no = self.bot.get_emoji(config.NO_EMOJI_ID)
@@ -58,7 +60,7 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 			await ctx.message.add_reaction(self.no)
 
 	@commands.command(name = 'сет', aliases = ['ассет', 'asset', 'set'], brief = 'Создаёт вашу собственную догму.')
-	async def asset(self, ctx, key, *, content = ''):
+	async def asset(self, ctx, key, *, content: str = ''):
 		'''
 			Использование: `{prefix}сет <название> [содержание]`
 				Возможно прикрепить к сообщению файл (к примеру, картинку, .mp3, .mp4...).
@@ -73,7 +75,9 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 
 			Возвращает:
 				{no}: Если догма с таким названием уже существует.
+				{no}: Если вы указали упоминание, как название догмы. Не надо.
 				{yes}: При успешном создании догмы.
+				❗: Если догма является спам-командой.
 		'''
 		key = key.lower()
 
@@ -81,22 +85,32 @@ class DogmasCog(commands.Cog, name = 'Догмы'):
 		dogma = self.conn.find_item(key = key)
 		if (dogma):
 			await ctx.message.add_reaction(self.no)
-		else:
-			path = ''
-			if (ctx.message.attachments):
-				file = ctx.message.attachments[0]
-				extension = file.filename[file.filename.index('.'):]
-				path = r'imgs/_' + key + extension
-				await ctx.message.attachments[0].save(path)
-			result = self.conn.add_item({
-				'key': key,
-				'message': content,
-				'img': path,
-				'author': ctx.message.author.id,
-				'stamp': dt.datetime.now().strftime('%b, %d.%m.%Y %H:%M')})
-			await ctx.message.add_reaction(self.yes)
+			return
+		if (re.match('<[@#](!?)([0-9]*)>', key)):
+			await ctx.message.add_reaction(self.no)
+			return
 
-			await utils.update_presence(self.bot)
+		if (content == f'//{key}'):
+			kom = self.bot.get_user(self.komm)
+			await ctx.message.add_reaction('❗')
+			await kom.send(str(ctx.message.author) + f' пытался создать спам-догму с содержанием {content}. Ком, его жизнь в твоих руках.')
+			return
+
+		path = ''
+		if (ctx.message.attachments):
+			file = ctx.message.attachments[0]
+			extension = file.filename[file.filename.index('.'):]
+			path = r'imgs/_' + key + extension
+			await ctx.message.attachments[0].save(path)
+		result = self.conn.add_item({
+			'key': key,
+			'message': content,
+			'img': path,
+			'author': ctx.message.author.id,
+			'stamp': dt.datetime.now().strftime('%b, %d.%m.%Y %H:%M')})
+		await ctx.message.add_reaction(self.yes)
+
+		await utils.update_presence(self.bot)
 
 	@commands.command(name = 'догма_инфо', aliases = ['асдогма_инфо', 'асдогма-инфо', 'догма-инфо', 'dogma_info', 'dogma-info', 'asdogma_info', 'asdogma-info'], brief = 'Показывает некоторую информацию о догме.')
 	async def asdogma_info(self, ctx, key):
